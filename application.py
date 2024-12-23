@@ -4,7 +4,6 @@ import mysql.connector
 
 app = Flask(__name__)
 
-# MySQL Configuration
 db_config = {
     "host": "localhost",
     "user": "root",
@@ -12,7 +11,6 @@ db_config = {
     "database": "CMATamilwebDB"
 }
 
-# Video Download Directory
 DOWNLOAD_FOLDER = './static/download'
 
 # Your YouTube API Key
