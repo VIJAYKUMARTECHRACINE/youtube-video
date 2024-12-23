@@ -1,362 +1,60 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Video Grid</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 20px;
-        }
-        .video-card {
-            position: relative;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background: #fff;
-            padding: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .thumbnail-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 5px;
-        }
-        .thumbnail-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 5px;
-        }
         .thumbnail-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             display: none;
         }
         .thumbnail-container:hover iframe {
             display: block;
         }
-        .info {
-            margin-top: 10px;
-            text-align: center;
-        }
-        .info h4 {
-            margin: 5px 0;
-            font-size: 18px;
-            color: #333;
-        }
-        .info p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        .download-btn {
-            margin-top: 15px;
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            width: 100%;
-            text-align: center;
-            font-size: 16px;
-        }
-        .download-btn:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
-    <div class="grid" id="video-grid"></div>
-    
+    <div class="container py-5">
+        <div class="row g-4" id="video-grid"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         async function fetchVideos() {
             const response = await fetch('/api/videos');
             const videos = await response.json();
             const grid = document.getElementById('video-grid');
-            
-            videos.forEach(video => {
-                const card = document.createElement('div');
-                card.className = 'video-card';
-                
-                card.innerHTML = `
-                    <div class="thumbnail-container">
-                        <img src="${video.thumbnail}" alt="${video.title}">
-                        <iframe src="https://www.youtube.com/embed/${video.video_id}?autoplay=1&mute=1" allowfullscreen></iframe>
-                    </div>
-                    <div class="info">
-                        <h4>${video.title}</h4>
-                        <p>${video.views} views | ${video.likes} likes</p>
-                        <button class="download-btn" onclick="downloadVideo('${video.video_id}')">Download</button>
 
+            videos.forEach(video => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4';
+
+                col.innerHTML = `
+                    <div class="border rounded bg-white p-3 shadow-sm video-card">
+                        <div class="thumbnail-container position-relative overflow-hidden rounded-top">
+                            <img src="${video.thumbnail}" alt="${video.title}" class="card-img-top">
+                            <iframe class="position-absolute top-0 start-0 w-100 h-100" src="https://www.youtube.com/embed/${video.video_id}?autoplay=1&mute=1" allowfullscreen></iframe>
+                        </div>
+                        <div class="card-body text-center">
+                            <h4 class="my-1 fs-5 text-dark">${video.title}</h4>
+                            <p class="card-text text-muted">${video.views} views | ${video.likes} likes</p>
+                            <button class="btn btn-primary" onclick="downloadVideo('${video.video_id}')">Download</button>
+                        </div>
                     </div>
                 `;
-                grid.appendChild(card);
+                grid.appendChild(col);
             });
         }
-        function downloadVideo(videoId) {
-}
 
         function downloadVideo(videoId) {
             alert(`Download initiated for video ID: ${videoId}`);
             window.location.href = `/download/${videoId}.mp4`;
-            // Add further functionality to handle download logic here
         }
 
         fetchVideos();
     </script>
 </body>
 </html>
- -->
- <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>YouTube Video Grid</title>
-     <style>
-         body {
-             font-family: Arial, sans-serif;
-             margin: 0;
-             padding: 0;
-             background-color: #f4f4f9;
-         }
-         .grid {
-             display: grid;
-             grid-template-columns: repeat(3, 1fr);
-             gap: 20px;
-             padding: 20px;
-         }
-         .video-card {
-             position: relative;
-             border: 1px solid #ddd;
-             border-radius: 8px;
-             background: #fff;
-             padding: 10px;
-             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-         }
-         .thumbnail-container {
-             position: relative;
-             overflow: hidden;
-             border-radius: 5px;
-         }
-         .thumbnail-container img {
-             width: 100%;
-             height: auto;
-             display: block;
-             border-radius: 5px;
-         }
-         .thumbnail-container iframe {
-             position: absolute;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
-             display: none;
-         }
-         .thumbnail-container:hover iframe {
-             display: block;
-         }
-         .info {
-             margin-top: 10px;
-             text-align: center;
-         }
-         .info h4 {
-             margin: 5px 0;
-             font-size: 18px;
-             color: #333;
-         }
-         .info p {
-             margin: 5px 0;
-             font-size: 14px;
-             color: #666;
-         }
-         .download-btn {
-             margin-top: 15px;
-             padding: 10px 20px;
-             border: none;
-             background-color: #007bff;
-             color: white;
-             border-radius: 5px;
-             cursor: pointer;
-             display: block;
-             width: 100%;
-             text-align: center;
-             font-size: 16px;
-         }
-         .download-btn:hover {
-             background-color: #0056b3;
-         }
-         /* Popup Form Styling */
-         .popup-form-container {
-             display: none;
-             position: fixed;
-             top: 50%;
-             left: 50%;
-             transform: translate(-50%, -50%);
-             background: #ffffff;
-             padding: 25px;
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-             border-radius: 10px;
-             z-index: 1000;
-             width: 300px;
-         }
- 
-         .popup-form-container h3 {
-             margin-top: 0;
-             text-align: center;
-             font-family: Arial, sans-serif;
-             color: #333;
-         }
- 
-         .popup-form-container label {
-             display: block;
-             margin-bottom: 5px;
-             font-weight: bold;
-             font-family: Arial, sans-serif;
-             color: #555;
-         }
- 
-         .popup-form-container input {
-             width: 100%;
-             padding: 8px;
-             margin-bottom: 15px;
-             border: 1px solid #ddd;
-             border-radius: 5px;
-             font-family: Arial, sans-serif;
-         }
- 
-         .popup-form-container button {
-             width: 100%;
-             padding: 10px;
-             border: none;
-             border-radius: 5px;
-             cursor: pointer;
-             font-size: 16px;
-             font-family: Arial, sans-serif;
-         }
- 
-         .popup-form-container .submit-btn {
-             background-color: #007bff;
-             color: white;
-         }
- 
-         .popup-form-container .submit-btn:hover {
-             background-color: #0056b3;
-         }
- 
-         .popup-form-container .cancel-btn {
-             background-color: #f44336;
-             color: white;
-             margin-top: 10px;
-         }
- 
-         .popup-form-container .cancel-btn:hover {
-             background-color: #c23629;
-         }
- 
-     </style>
- </head>
- <body>
-     <body>
-         <div class="grid" id="video-grid"></div>
-     
-         <div class="popup-form-container" id="popup-form">
-             <h3>Provide Your Information</h3>
-             <form id="user-info-form">
-                 <label for="name">Name:</label>
-                 <input type="text" id="name" name="name" required>
-         
-                 <label for="phone">Phone:</label>
-                 <input type="tel" id="phone" name="phone" required>
-         
-                 <label for="email">Email:</label>
-                 <input type="email" id="email" name="email" required>
-         
-                 <input type="hidden" id="video-id" name="video_id">
-         
-                 <button type="submit" class="submit-btn">Submit & Download</button>
-                 <button type="button" class="cancel-btn" onclick="closePopup()">Cancel</button>
-             </form>
-         </div>
-         
-     
-         <script>
-             async function fetchVideos() {
-                 const response = await fetch('/api/videos');
-                 const videos = await response.json();
-                 const grid = document.getElementById('video-grid');
-     
-                 videos.forEach(video => {
-                     const card = document.createElement('div');
-                     card.className = 'video-card';
-     
-                     card.innerHTML = `
-                         <div class="thumbnail-container">
-                             <img src="${video.thumbnail}" alt="${video.title}">
-                             <iframe src="https://www.youtube.com/embed/${video.video_id}?autoplay=1&mute=1" allowfullscreen></iframe>
-                         </div>
-                         <div class="info">
-                             <h4>${video.title}</h4>
-                             <p>${video.views} views | ${video.likes} likes</p>
-                             <button class="download-btn" onclick="showPopup('${video.video_id}')">Download</button>
-                         </div>
-                     `;
-                     grid.appendChild(card);
-                 });
-             }
-     
-             function showPopup(videoId) {
-                 document.getElementById('video-id').value = videoId;
-                 document.getElementById('popup-form').style.display = 'block';
-             }
-     
-             function closePopup() {
-                 document.getElementById('popup-form').style.display = 'none';
-             }
-     
-             document.getElementById('user-info-form').addEventListener('submit', async (e) => {
-                 e.preventDefault();
-     
-                 const name = document.getElementById('name').value;
-                 const phone = document.getElementById('phone').value;
-                 const email = document.getElementById('email').value;
-                 const videoId = document.getElementById('video-id').value;
-     
-                 const response = await fetch('/submit_info', {
-                     method: 'POST',
-                     headers: { 'Content-Type': 'application/json' },
-                     body: JSON.stringify({ name, phone, email, video_id: videoId })
-                 });
-     
-                 const result = await response.json();
-     
-                 if (response.ok) {
-                     alert("Info submitted successfully. Starting download...");
-                     window.location.href = result.download_link;
-                 } else {
-                     alert(result.error || "An error occurred.");
-                 }
-     
-                 closePopup();
-             });
-     
-             fetchVideos();
-         </script>
-     </body>
-     
- </html>
- 
